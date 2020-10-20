@@ -110,15 +110,15 @@
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" class="text-right">Price</th>
+                                <th scope="col" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="product in allproduct">
                                 <td>@{{product.name}}</td>
-                                <td>@{{product.price}}</td>
-                                <td> <a href="javascript:void(0)" ng-click="modifyproduct(product)">Edit</a>   | <a href="javascript:void(0)" ng-click="deleteproduct(product)">Delete</a> </td>
+                                <td class="text-right">@{{product.price}}</td>
+                                <td class="text-center"> <a href="javascript:void(0)" ng-click="modifyproduct(product)">Edit</a>   | <a href="javascript:void(0)" ng-click="deleteproduct(product)">Delete</a> </td>
                             </tr>
                             
                         </tbody>

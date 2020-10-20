@@ -3,16 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
-/*
-    |--------------------------------------------------------------------------
-    | Web Routes
-    |--------------------------------------------------------------------------
-    |
-    | Here is where you can register web routes for your application. These
-    | routes are loaded by the RouteServiceProvider within a group which
-    | contains the "web" middleware group. Now create something great!
-    |
-*/
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,3 +17,6 @@ Route::get('/delete-product/{id}', [ProductController::class,'destroy'])->name('
 
 Route::get('/sale',[SaleController::class,'index'])->name('sale');
 Route::post('/store-sale',[SaleController::class,'store'])->name('store-sale'); 
+
+Route::get('/report',[ReportController::class,'index'])->name('report'); 
+Route::post('/get-report',[ReportController::class,'store'])->name('get-report'); 
