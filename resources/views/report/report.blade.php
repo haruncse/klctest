@@ -8,7 +8,7 @@
         <div class="panel-body" ng-app="reportModule" id="reportControllerID"  ng-controller="reportController">
             <div class="col-md-12">
                 <div class="col-md-12 form-inline d-flex justify-content-center bd-highlight mb-3">
-                    <label class="sr-only" for="inlineFormInputName2">Pasta Name</label>
+                    {{--<label class="sr-only" for="inlineFormInputName2">Pasta Name</label>
                     <input type="text" ng-model="inputData.name" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Pasta Name">
 
                     <label class="sr-only" for="inlineFormInputGroupUsername2">Date</label>
@@ -17,7 +17,7 @@
                         <div class="input-group-text">Date</div>
                         </div>
                         <input type="datetime-local" ng-model="inputData.date" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Date">
-                    </div>
+                    </div>--}}
                     <button ng-click="getSelReport(inputData)" class="btn btn-primary mb-2"> Get Report</button>
                 </div>
                 <div id="report" class="col-md-12 table-responsive">

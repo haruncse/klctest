@@ -25,7 +25,7 @@
 
 <body>
 <div class="container">
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg ">
         <div class="d-flex flex-grow-1">
             <span class="w-100 d-lg-none d-block">
                 <!-- hidden spacer to center brand on mobile --></span>
