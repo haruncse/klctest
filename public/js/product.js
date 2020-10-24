@@ -23,29 +23,42 @@
         $scope.productNewData=[];
         $scope.productDetailData=[];
         $scope.productModifyData=[];
-        $scope.addproduct=function(productData){
+
+        $scope.addProduct=function(productData){
             console.log(productData);
-            /*setTimeout(function(){ 
-                $scope.$apply();
-                addproduct(productData);
-            });*/
+
             $http({
                 method: 'POST',
                 dataType: "JSON",
-                url: '/store-product',
+                url: '/product',
                 data: {
-                    'product':productData
+                    'price':productData.price,
+                    'name':productData.name
                     }
             })
             .success(function (result) {
-                console.log('true',result);
+                console.log(result);
+                $("#productCreateForm").css("display","none");
+                alert("Product added successfully");
+                $scope.allproduct = result;
+                $scope.productNewData=[];
             })
-            .error(function(){
-                console.log('false');
+            .error(function(error){
+                console.log(error,'false');
+                var errorMessage=error.message;
+                var errorList="";
+                for (var key in error.errors) {
+                    //console.log("Key: " + key);
+                    //console.log("Value: " + error.errors[key]);
+                    errorList+="\n"+error.errors[key];
+                }
+                alert(errorMessage+errorList);
             });
         }
 
         $scope.deleteproduct=function(productData){
+            $("#productCreateForm").css("display","none");
+            $("#productModifyForm").css("display","none");
             if(confirm("Do you want to delete "+productData.name)){
                 $http({
                     method: 'GET',
@@ -61,32 +74,60 @@
                         $("#productCreateForm").css("display","none");
                         $("#productModifyForm").css("display","none");
                         $("#productDetail").css("display","none");
-
                         $scope.allproduct = result;
-
+                    }else{
+                        alert("Product delete failed");
                     }
                 })
-                .error(function(){
-                    console.log('false');
+                .error(function(error){
+                    console.log(error,'false');
+                    var errorMessage=error.message;
+                    var errorList="";
+                    for (var key in error.errors) {
+                        errorList+="\n"+error.errors[key];
+                    }
+                    alert(errorMessage+errorList);
                 });
             }
         }
 
-        
-        $scope.detailproduct=function(productData){
-            $("#productDetail").css("display","block");
-            $("#productCreateForm").css("display","none");
-            $("#productModifyForm").css("display","none");
-                        
-            console.log(productData);
-            $scope.productDetailData=productData;
-        }
-        
+
         $scope.modifyproduct=function(productData){
             console.log(productData);
             $("#productCreateForm").css("display","none");
             $("#productModifyForm").css("display","block");
             $scope.productModifyData=productData;
+        }
+
+        $scope.modifyProductByID=function(productData){
+            $scope.productModifyData=productData;
+
+            $http({
+                method: 'POST',
+                dataType: "JSON",
+                url: '/modify-product',
+                data: {
+                    'id':productData.id,
+                    'price':productData.price,
+                    'name':productData.name
+                    }
+            })
+            .success(function (result) {
+                console.log(result);
+                $("#productModifyForm").css("display","none");
+                alert("Product modified successfully");
+                $scope.allproduct = result;
+                $scope.productModifyData=[];
+            })
+            .error(function(error){
+                console.log(error,'false');
+                var errorMessage=error.message;
+                var errorList="";
+                for (var key in error.errors) {
+                    errorList+="\n"+error.errors[key];
+                }
+                alert(errorMessage+errorList);
+            });
         }
         
     }]);

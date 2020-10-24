@@ -12,15 +12,18 @@
         $("#productModifyForm").css("display","none");
     }
 
-    function addproduct(product){
+    function addProduct(){
+        var product="Data"; 
+
         console.log(product);
         //return 0;
         $.ajax({
             dataType:'json',
             type:'POST',
-            url:'/store-product',  
+            url:'/product',  
             data:{
-            'product':product
+            'name':"name",
+            'price':"2150"
             },
             success:function(result){     
             console.log(result);
@@ -55,55 +58,60 @@
                         </ul>
                     </div>
                 @endif
-                <form class="col-md-12" id="productCreateForm" method="POST" action="/product">
+                {{--<form class="col-md-12" id="productCreateForm" method="POST" action="/product">--}}
+                    <div class="col-md-12" id="productCreateForm">
                     @csrf
                     <div class="form-group row">
-                        <label for="productName" class="col-sm-2 col-form-label">Name</label>
+                        <label for="productName" class="col-sm-2 col-form-label">Name *</label>
                         <div class="col-sm-10">
                         <input type="text" class="form-control" name="name" id="productName"  value="@{{productNewData.name}}" ng-model="productNewData.name" required placeholder="Product name">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="productPrice" class="col-sm-2 col-form-label">Price</label>
+                        <label for="productPrice" class="col-sm-2 col-form-label">Price *</label>
                         <div class="col-sm-10">
-                        <input type="number" class="form-control" name="price" id="productPrice" value="@{{productNewData.price}}" ng-model="productNewData.price" required placeholder="Product Price">
+                        <input type="text"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" name="price" id="productPrice" value="@{{productNewData.price}}" ng-model="productNewData.price" required placeholder="Product Price">
                         </div>
                     </div>
                 
                     <div class="form-group row">
                         <label  class="col-sm-2 col-form-label"></label>
                         <div class="col-sm-10 ">
-                        <button type="submit" class="btn btn-primary" >Create Product</button>
+                        <button {{--type="submit"--}} {{--onclick="addProduct();"--}} ng-click="addProduct(productNewData);" class="btn btn-primary" >Create Product</button>
                         </div>
                     </div>
-                </form>
+                    </div>
+                {{--</form>--}}
 
-                <form class="col-md-12" id="productModifyForm" method="POST" action="/modify-product">
+
+                {{--<form class="col-md-12" id="productModifyForm" method="POST" action="/modify-product">--}}
+                    <div class="col-md-12" id="productModifyForm">
                     @csrf
                     <input type="hidden" name="id" ng-model="productModifyData.id" value="@{{productModifyData.id}}">
                     
                     <div class="form-group row">
                         <label for="productName" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-10">
-                        <input type="text" class="form-control" name="name" id="productName" value="@{{productModifyData.name}}" ng-model="productModifyData.name" required placeholder="Product name">
+                        <input type="text" class="form-control" name="name" id="productNameM" value="@{{productModifyData.name}}" ng-model="productModifyData.name" required placeholder="Product name">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="productPrice" class="col-sm-2 col-form-label">Price</label>
                         <div class="col-sm-10">
-                        <input type="number" class="form-control" name="price" id="productPrice" value="@{{productModifyData.price}}" ng-model="productModifyData.price" required placeholder="Product Price">
+                        <input type="text"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" name="price" id="productPriceM" value="@{{productModifyData.price}}" ng-model="productModifyData.price" required placeholder="Product Price">
                         </div>
                     </div>
                     
                     <div class="form-group row">
                         <label  class="col-sm-2 col-form-label"></label>
                         <div class="col-sm-10 ">
-                        <button type="submit" class="btn btn-primary" >Modify Product</button>
+                        <button {{--type="submit"--}} ng-click="modifyProductByID(productModifyData);" class="btn btn-primary" >Modify Product</button>
                         </div>
                     </div>
-                </form>
+                    </div>
+                {{--</form>--}}
 
                 <div id="productList" class="col-md-12 table-responsive">
                     <table class="table table-sm">

@@ -33,16 +33,24 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:products',
             'price' => 'required|numeric',
         ]);
+        //return $request;
         //dd($request->all());
-        Product::create($request->all());
+        try{
+            Product::create($request->all());
+            return Product::all();
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
         
-        return redirect('/product');
+        //return json_encode($request);
+        //return redirect('/product');
     }
 
     /**
@@ -77,17 +85,34 @@ class ProductController extends Controller
 
     public function update(Request $request)
     {
+        $id=$request->input('id');
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:products,name,'.$id,
             'price' => 'required|numeric',
         ]);
 
+        /*$this->validate($request,[
+            'name' => 'required|max:255|unique:products,name,'.$id,
+            'price' => 'required|numeric',
+        ]);*/
+    
         //dd($request->input('id'));
-        $product=Product::findorfail($request->input('id'));
-        $product->name=$request->input('name');
-        $product->price=$request->input('price');
-        $product->save();
-        return redirect('/product');
+        try{
+            $product=Product::findorfail($request->input('id'));
+
+            /*
+                $product->name=$request->input('name');
+                $product->price=$request->input('price');
+                $product->save();
+            */
+
+            $product->update($request->all());
+            //return redirect('/product');
+            return Product::all();
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+        
     }
 
     /**
@@ -98,13 +123,18 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::findorfail($id);
-        if($product){
-            $product = Product::destroy($id);
-            return Product::all();
-        }else{
-            return "false";
+        try{
+            $product = Product::findorfail($id);
+            if($product){
+                $product = Product::destroy($id);
+                return Product::all();
+            }else{
+                return "false";
+            }
+        }catch(Exception $e){
+            return $e->getMessage();
         }
+        
     }
 
     public function productList()
